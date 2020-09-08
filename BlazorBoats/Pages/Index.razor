@@ -1,0 +1,29 @@
+﻿@page "/"
+@using Models
+@using Kentico.Kontent.Delivery.Abstractions
+@inject IDeliveryClient deliveryClient
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+<SurveyPrompt Title="How is Blazor working for you?" />
+
+@if (dinghyClasses != null)
+{
+<ol>
+    @foreach (var dinghyClass in dinghyClasses)
+    {
+        <li>@dinghyClass.ClassName</li>
+    }
+</ol>
+}
+
+@code{
+    private IEnumerable<DinghyClass> dinghyClasses;
+
+    protected override async Task OnInitializedAsync()
+    {
+        dinghyClasses = (await deliveryClient.GetItemsAsync<DinghyClass>()).Items;
+    }
+}
